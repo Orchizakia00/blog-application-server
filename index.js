@@ -39,6 +39,29 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/blogs/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await blogCollection.findOne(query);
+            res.send(result);
+        })
+
+        app.patch('/blogs/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) };
+            const updateBlog = req.body;
+            const updatedDoc = {
+                $set: {
+                    title: updateBlog.title,
+                    month: updateBlog.month,
+                    content: updateBlog.content,
+                    name: updateBlog.name,
+                }
+            }
+            const result = await blogCollection.updateOne(filter, updatedDoc);
+            res.send(result);
+        })
+
         app.delete('/blogs/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) };
