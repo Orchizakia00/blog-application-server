@@ -26,6 +26,14 @@ async function run() {
     try {
 
         const blogCollection = client.db('blogDB').collection('blogs');
+        const userCollection = client.db('blogDB').collection('users');
+
+        // users api
+        app.post('/users', async (req, res) => {
+            const data = req.body;
+            const result = await userCollection.insertOne(data);
+            res.send(result);
+        })
 
         // blogs api
         app.get('/blogs', async (req, res) => {
